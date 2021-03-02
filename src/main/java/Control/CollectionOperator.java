@@ -21,6 +21,7 @@ public class CollectionOperator {
     public CollectionOperator(Downloader downloader, Uploader uploader) {
         this.downloader = downloader;
         this.uploader = uploader;
+        System.out.println("Программа запущена");
         loadCollection();
     }
 

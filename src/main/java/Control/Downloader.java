@@ -13,6 +13,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,12 +24,17 @@ import java.util.regex.Pattern;
  */
 public class Downloader {
 
-    private final Scanner scanner;
+    private Scanner scanner;
 
 
-    public Downloader(String source) throws FileNotFoundException {
-        File file = new File(source);
-        scanner = new Scanner(file);
+    public Downloader(String source) {
+        try {
+            File file = new File(source);
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e){
+            System.err.println("Файл не найдён! Проверьте правильность введённого пути!");
+            System.exit(0);
+        }
     }
 
     /**
@@ -51,11 +57,15 @@ public class Downloader {
 
         //Пропуск технических строк в файле:
 
-        scanner.nextLine();
-        scanner.nextLine();
-
+        try {
+            scanner.nextLine();
+            scanner.nextLine();
+        } catch (NoSuchElementException e){
+            //System.err.println("Файл некорректен!");
+        }
         Pattern pattern = Pattern.compile(">.+<"); //Паттерн для отсеивания информации от тэгов
 
+        //if (!scanner.hasNextLine()) System.err.println("Файл некорректен!");
         while (scanner.hasNextLine()) {
             s = scanner.nextLine();
             if (s.contains("<Worker>")) {
@@ -66,8 +76,11 @@ public class Downloader {
                 errStatus = false;
 
                 int counter = 0;
-
-                s = scanner.nextLine();
+                try {
+                    s = scanner.nextLine();
+                } catch (NoSuchElementException e){
+                    //System.err.println("Файл некорректен!");
+                }
                 workers.add(new Worker()); //добавляем объект в коллекцию
 
                 while (!s.contains("</Worker>")) {
@@ -328,8 +341,12 @@ public class Downloader {
                             } else throw new ValueIsEmptyException();
                         }
 
-
-                        s = scanner.nextLine();
+                        try {
+                            s = scanner.nextLine();
+                        } catch (NoSuchElementException e){
+                            //System.err.println("Файл некорректен!");
+                            break;
+                        }
                     } catch (ValueIsEmptyException e) {
                         System.err.println("Некоторые поля пустые. Перепроверьте содержимое файла!");
                         errStatus = true;
@@ -383,6 +400,7 @@ public class Downloader {
         }
         scanner.close();
         if (GlobalErrStatus) System.out.println("Файл был повреждён. Загружены только корректные элементы коллекции.");
+        if (workers.size() == 0) System.out.println("Похоже, что с файлом какая-то проблема, в коллекцию ничего не было загружено");
         return workers;
     }
 }

@@ -41,9 +41,8 @@ public class Update implements Executable{
         try {
             argument = argument.trim();
             if (argument.isEmpty()) throw new WrongArgumentException();
-            if (collectionOperator.collectionSize() == 0) throw new EmptyCollectionException();
-
             long id = Long.parseLong(argument);
+            if (collectionOperator.collectionSize() == 0) throw new EmptyCollectionException();
             Worker oldWorker = collectionOperator.getById(id);
             if (oldWorker == null) throw new WorkerNotFoundException();
 
@@ -68,7 +67,7 @@ public class Update implements Executable{
             System.out.println("Рабочий успешно изменен!");
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Укажите ID в качестве аргумента!");
+            System.err.println("Укажите ID в качестве аргумента!");
         } catch (EmptyCollectionException e) {
             System.err.println("Коллекция пуста!");
         } catch (NumberFormatException e) {
