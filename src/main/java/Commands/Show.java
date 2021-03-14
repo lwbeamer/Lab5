@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Exceptions.WrongArgumentException;
 
 /**
@@ -31,10 +32,10 @@ public class Show implements Executable{
     public boolean execute(String argument) {
         try {
             if (!argument.isEmpty()) throw new WrongArgumentException();
-            System.out.println(collectionOperator.workersDesc());
+            Console.println(collectionOperator.workersDesc());
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
+            Console.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
         }
         return false;
     }

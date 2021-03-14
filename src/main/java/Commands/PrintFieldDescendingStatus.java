@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import WorkerData.Worker;
 import Exceptions.EmptyCollectionException;
 import Exceptions.WrongArgumentException;
@@ -37,14 +38,14 @@ public class PrintFieldDescendingStatus implements Executable{
             if (collectionOperator.collectionSize() == 0) throw new EmptyCollectionException();
             collectionOperator.sortReverseCollection();
             for (Worker worker: collectionOperator.getWorkersCollection()){
-                System.out.println(worker.getStatus()+"\n");
+                Console.println(worker.getStatus()+"\n");
             }
             collectionOperator.sortCollection();
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
+            Console.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
         } catch (EmptyCollectionException e) {
-            System.err.println("Коллекция пуста!");
+            Console.printerror("Коллекция пуста!");
         }
         return false;
     }

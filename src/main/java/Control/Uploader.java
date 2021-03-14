@@ -76,9 +76,9 @@ public class Uploader {
             br.write("</Workers>");
 
             br.close();
-            System.out.println("Сохранено!");
+            Console.println("Сохранено!");
         } catch (IOException e){
-            System.err.println("Проверьте файл");
+            Console.printerror("Проверьте файл");
         }
     }
 }

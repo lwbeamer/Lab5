@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Control.UserDataReceiver;
 import WorkerData.Person;
 import WorkerData.Worker;
@@ -52,15 +53,15 @@ public class RemoveAllByPerson implements Executable{
             for (Long id: listId){
                 collectionOperator.removeFromCollection(collectionOperator.getById(id));
             }
-            if (check) System.out.println("Рабочие успешно удалены!");
-            else System.out.println("Рабочих с такими личными данными не найдено!");
+            if (check) Console.println("Рабочие успешно удалены!");
+            else Console.println("Рабочих с такими личными данными не найдено!");
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, введите данные после ввода команды");
+            Console.println("Для этой комманды не нужен аргумент, введите данные после ввода команды");
         } catch (EmptyCollectionException e) {
-            System.err.println("Коллекция пуста!");
+            Console.printerror("Коллекция пуста!");
         } catch (NumberFormatException e) {
-            System.err.println("ID должен быть представлен числом!");
+            Console.printerror("ID должен быть представлен числом!");
         } catch (ScriptErrorException e) {
             e.printStackTrace();
         }

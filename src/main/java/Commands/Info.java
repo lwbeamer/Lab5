@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Exceptions.WrongArgumentException;
 import java.time.LocalDateTime;
 
@@ -40,12 +41,12 @@ public class Info implements Executable{
                 lastInitTimeString = "Инициализации ещё не было";
             else lastInitTimeString = lastInitTime.toLocalDate().toString() + " " + lastInitTime.toLocalTime().toString();
 
-            System.out.println(" Тип коллекции: " + collectionOperator.collectionType());
-            System.out.println(" Количество элементов: " + collectionOperator.collectionSize());
-            System.out.println(" Дата последней инициализации: " + lastInitTimeString);
+            Console.println(" Тип коллекции: " + collectionOperator.collectionType());
+            Console.println(" Количество элементов: " + collectionOperator.collectionSize());
+            Console.println(" Дата последней инициализации: " + lastInitTimeString);
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
+            Console.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
         }
         return false;
     }

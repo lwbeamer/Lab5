@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Exceptions.WrongArgumentException;
 
 /**
@@ -35,7 +36,7 @@ public class Save implements Executable{
             collectionOperator.saveCollection();
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
+            Console.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
         }
         return false;
     }

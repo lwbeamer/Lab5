@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Control.UserDataReceiver;
 import WorkerData.*;
 import Exceptions.EmptyCollectionException;
@@ -67,13 +68,13 @@ public class Update implements Executable{
             System.out.println("Рабочий успешно изменен!");
             return true;
         } catch (WrongArgumentException e) {
-            System.err.println("Укажите ID в качестве аргумента!");
+            Console.printerror("Укажите ID в качестве аргумента!");
         } catch (EmptyCollectionException e) {
-            System.err.println("Коллекция пуста!");
+            Console.printerror("Коллекция пуста!");
         } catch (NumberFormatException e) {
-            System.err.println("ID должен быть представлен числом!");
+            Console.printerror("ID должен быть представлен числом!");
         } catch (WorkerNotFoundException e) {
-            System.err.println("Рабочего с таким ID в коллекции нет!");
+            Console.printerror("Рабочего с таким ID в коллекции нет!");
         } catch (ScriptErrorException e) {}
         return false;
     }

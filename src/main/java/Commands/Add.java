@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Control.UserDataReceiver;
 import WorkerData.Worker;
 import Exceptions.ScriptErrorException;
@@ -40,10 +41,10 @@ public class Add implements Executable{
             if (!argument.isEmpty()) throw new WrongArgumentException();
             collectionOperator.addToCollection(new Worker(collectionOperator.generateId(), userDataReceiver.askName(), userDataReceiver.askCoordinates(), ZonedDateTime.now(), userDataReceiver.askSalary(), userDataReceiver.askPosition(), userDataReceiver.askStatus(), userDataReceiver.askPerson()));
             collectionOperator.sortCollection();
-            System.out.println("Рабочий успешно добавлен!");
+            Console.println("Рабочий успешно добавлен!");
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, введите данные после ввода команды");
+            Console.println("Для этой комманды не нужен аргумент, введите данные после ввода команды");
         } catch (ScriptErrorException e) {}
         return false;
     }

@@ -43,6 +43,9 @@ public class Console {
     public int scriptExecution(String argument) {
         String[] inputCommand;
         int commandStatus;
+        int globalErrorStatus = 0;
+
+        argument = argument.trim();
 
         scriptStack.add(argument); //добавляем скрипт в список
 
@@ -62,7 +65,7 @@ public class Console {
                     inputCommand = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
                     inputCommand[1] = inputCommand[1].trim();
                 }
-                System.out.println(String.join(" ", inputCommand));
+                Console.println(String.join(" ", inputCommand));
 
                 if (inputCommand[0].equals("execute_script")) { //если есть команда вызова скрипта, проверяется, не вызывается ли файл, который уже есть в стэке, если да, то происходит рекурсия (ошибка)
                     for (String script : scriptStack) {
@@ -72,20 +75,32 @@ public class Console {
                 commandStatus = launchCommand(inputCommand); //запуск команды
             } while (commandStatus == 0 && scriptScanner.hasNextLine()); //цикл работает до тех пор, пока всё идёт без ошибок (код 0), или пока не кончится скрипт.
 
+            scriptStack.remove(scriptStack.size()-1); //удаляем завершённый скрипт
+
             userDataReceiver.setInputScanner(tmpScanner); //Отдаём сканер обратно
             userDataReceiver.setNormalMode(); //Возвращаем консольный режим
 
-            if (commandStatus == 1) //Если програма отработала с ошибкой
-                System.out.println("Проверьте скрипт на корректность введенных данных!");
+            if (commandStatus == 1) { //Если програма отработала с ошибкой
+                Console.println("Что-то пошло не так. Проверьте на корректность введённых данных скрипт "+argument);
+            }
             return commandStatus;
+
         } catch (FileNotFoundException e) {
-            System.err.println("Файл со скриптом не найден!");
+            Console.printerror("Файл со скриптом не найден!");
         } catch (NoSuchElementException e) {
-            System.err.println("Файл со скриптом пуст!");
+            Console.printerror("Файл со скриптом пуст!");
         } catch (ScriptRecursionException e) {
-            System.err.println("Скрипты не могут вызываться рекурсивно!");
+            Console.printerror("Скрипты не могут вызываться рекурсивно!");
         }
         return 1;
+    }
+
+    /**
+     * Возвращает мапу с командами
+     * @return мапу с командами
+     */
+    public HashMap<String,Convertable<Boolean,String>> getCommandsMap(){
+        return commandInvoker.getCommandsMap();
     }
 
     /**
@@ -94,60 +109,43 @@ public class Console {
      * @return возвращает код выполнения операции
      */
     private int launchCommand(String[] userCommand) {
-        switch (userCommand[0]) {
-            case "":
-                break;
-            case "help":
-                if (!commandInvoker.help(userCommand[1])) return 1;
-                break;
-            case "info":
-                if (!commandInvoker.info(userCommand[1])) return 1;
-                break;
-            case "show":
-                if (!commandInvoker.show(userCommand[1])) return 1;
-                break;
-            case "add":
-                if (!commandInvoker.add(userCommand[1])) return 1;
-                break;
-            case "update":
-                if (!commandInvoker.update(userCommand[1])) return 1;
-                break;
-            case "remove_by_id":
-                if (!commandInvoker.removeById(userCommand[1])) return 1;
-                break;
-            case "clear":
-                if (!commandInvoker.clear(userCommand[1])) return 1;
-                break;
-            case "save":
-                if (!commandInvoker.save(userCommand[1])) return 1;
-                break;
-            case "execute_script":
-                if (!commandInvoker.executeScript(userCommand[1])) return 1;
-                else return scriptExecution(userCommand[1]);
-            case "add_if_max":
-                if (!commandInvoker.addIfMax(userCommand[1])) return 1;
-                break;
-            case "add_if_min":
-                if (!commandInvoker.addIfMin(userCommand[1])) return 1;
-                break;
-            case "remove_head":
-                if (!commandInvoker.removeHead(userCommand[1])) return 1;
-                break;
-            case "remove_all_by_person":
-                if (!commandInvoker.removeAllByPerson(userCommand[1])) return 1;
-                break;
-            case "filter_by_status":
-                if (!commandInvoker.filterByStatusCommand(userCommand[1])) return 1;
-                break;
-            case "print_field_descending_status":
-                if (!commandInvoker.printFieldDescendingStatus(userCommand[1])) return 1;
-                break;
-            case "exit":
-                if (!commandInvoker.exit(userCommand[1])) return 1;
+        try {
+            if (userCommand[0].equals("exit")) {
+                if (!getCommandsMap().get(userCommand[0]).convert(userCommand[1])) return 1;
                 else return 2;
-            default:
-                if (!commandInvoker.noSuchCommand(userCommand[0])) return 1;
+            }
+            if (userCommand[0].equals("execute_script")){
+                if (!getCommandsMap().get(userCommand[0]).convert(userCommand[1])) return 1;
+                else return scriptExecution(userCommand[1]);
+            }
+            if (!getCommandsMap().get(userCommand[0]).convert(userCommand[1])) return 1;
+        } catch (NullPointerException e){
+            Console.println("Команда '" + userCommand[0] + "' не найдена. Наберите 'help' для справки.");
         }
         return 0;
+    }
+
+    /**
+     * Вывод в консоль без переноса строки
+     * @param toOut Объект для вывода
+     */
+    public static void print(Object toOut) {
+        System.out.print(toOut);
+    }
+
+    /**
+     * Вывод в консоль с переносом строки
+     * @param toOut Ошибка для вывода
+     */
+    public static void println(Object toOut) {
+        System.out.println(toOut);
+    }
+
+    /**
+     * Вывод ошибки в консоль
+     * @param toOut Объект для вывода
+     */
+    public static void printerror(Object toOut) {
+        System.err.println(toOut);
     }
 }

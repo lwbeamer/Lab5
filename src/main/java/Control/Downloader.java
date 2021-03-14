@@ -32,7 +32,10 @@ public class Downloader {
             File file = new File(source);
             scanner = new Scanner(file);
         } catch (FileNotFoundException e){
-            System.err.println("Файл не найдён! Проверьте правильность введённого пути!");
+            Console.printerror("Файл не найдён! Проверьте правильность введённого пути!");
+            System.exit(0);
+        } catch (NullPointerException e){
+            Console.printerror("Невозможно получить файл. Проверьте переменную окружения!");
             System.exit(0);
         }
     }
@@ -348,25 +351,25 @@ public class Downloader {
                             break;
                         }
                     } catch (ValueIsEmptyException e) {
-                        System.err.println("Некоторые поля пустые. Перепроверьте содержимое файла!");
+                        Console.printerror("Некоторые поля пустые. Перепроверьте содержимое файла!");
                         errStatus = true;
                         GlobalErrStatus = true;
                         workers.removeLast();
                         break;
                     } catch (NonUniqueValueException e) {
-                        System.err.println("ID должен быть уникальным!");
+                        Console.printerror("ID должен быть уникальным!");
                         errStatus = true;
                         GlobalErrStatus = true;
                         workers.removeLast();
                         break;
                     } catch (ValueOutOfRangeException e) {
-                        System.err.println("Значение поля должно быть больше 0!");
+                        Console.printerror("Значение поля должно быть больше 0!");
                         errStatus = true;
                         GlobalErrStatus = true;
                         workers.removeLast();
                         break;
                     } catch (NumberFormatException e) {
-                        System.err.println("Числовые поля содержат посторонние символы!");
+                        Console.printerror("Числовые поля содержат посторонние символы!");
                         errStatus = true;
                         GlobalErrStatus = true;
                         workers.removeLast();
@@ -386,21 +389,21 @@ public class Downloader {
                             workers.getLast().setPerson(new Person(LocalDateTime.of(year, month, day, hour, minute), w, p));
                             workers.getLast().setCreationDate(ZonedDateTime.of(LocalDateTime.of(creationYear, creationMonth, creationDay, creationHour, creationMinute), ZoneId.of(zoneID)));
                         } else {
-                            System.err.println("Некоторые поля элемента отсутствуют!");
+                            Console.printerror("Некоторые поля элемента отсутствуют!");
                             GlobalErrStatus = true;
                             workers.removeLast();
                         }
                     }
                 } catch (DateTimeException e) {
-                    System.err.println("Некорректные значения даты и/или времени");
+                    Console.printerror("Некорректные значения даты и/или времени");
                     GlobalErrStatus = true;
                     workers.removeLast();
                 }
             }
         }
         scanner.close();
-        if (GlobalErrStatus) System.out.println("Файл был повреждён. Загружены только корректные элементы коллекции.");
-        if (workers.size() == 0) System.out.println("Похоже, что с файлом какая-то проблема, в коллекцию ничего не было загружено");
+        if (GlobalErrStatus) Console.println("Файл был повреждён. Загружены только корректные элементы коллекции.");
+        if (workers.size() == 0) Console.println("Похоже, что с файлом какая-то проблема, в коллекцию ничего не было загружено");
         return workers;
     }
 }

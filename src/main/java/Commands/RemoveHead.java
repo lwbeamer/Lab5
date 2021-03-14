@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Exceptions.EmptyCollectionException;
 import Exceptions.WrongArgumentException;
 
@@ -34,12 +35,12 @@ public class RemoveHead implements Executable{
         try {
             if (!argument.isEmpty()) throw new WrongArgumentException();
             if (collectionOperator.collectionSize() == 0) throw new EmptyCollectionException();
-            System.out.println(collectionOperator.getWorkersCollection().getFirst().description());
+            Console.println(collectionOperator.getWorkersCollection().getFirst().description());
             collectionOperator.removeFromCollection(collectionOperator.getWorkersCollection().getFirst());
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
+            Console.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
         } catch (EmptyCollectionException e){
-            System.err.println("Коллекция пуста!");
+            Console.printerror("Коллекция пуста!");
         }
         return false;
     }

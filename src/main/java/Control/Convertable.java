@@ -1,0 +1,11 @@
+package Control;
+
+/**
+ * Функциональный интерфейс. Служит для передачи командам аргумента.
+ * @param <T> Тип аргумента
+ * @param <F> Тип, возвращаемый командой.
+ */
+public interface Convertable <T,F>{
+
+    T convert(F argument);
+}

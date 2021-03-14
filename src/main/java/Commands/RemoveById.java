@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import WorkerData.Worker;
 import Exceptions.EmptyCollectionException;
 import Exceptions.WorkerNotFoundException;
@@ -41,16 +42,16 @@ public class RemoveById implements Executable{
             Worker workerToRemove = collectionOperator.getById(id);
             if (workerToRemove == null) throw new WorkerNotFoundException();
             collectionOperator.removeFromCollection(workerToRemove);
-            System.out.println("Рабочий успешно удален!");
+            Console.println("Рабочий успешно удален!");
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Использование: '" + "remove" + "'");
+            Console.println("Использование: '" + "remove" + "'");
         } catch (EmptyCollectionException e) {
-            System.err.println("Коллекция пуста!");
+            Console.printerror("Коллекция пуста!");
         } catch (NumberFormatException e) {
-            System.err.println("ID должен быть представлен числом!");
+            Console.printerror("ID должен быть представлен числом!");
         } catch (WorkerNotFoundException e) {
-            System.err.println("Рабочего с таким ID в коллекции нет!");
+            Console.printerror("Рабочего с таким ID в коллекции нет!");
         }
         return false;
     }

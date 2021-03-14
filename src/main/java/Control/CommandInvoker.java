@@ -2,10 +2,13 @@ package Control;
 
 import Commands.*;
 
+import java.util.HashMap;
+
 /**
  * Класс, который вызывает нужные команды
  */
 public class CommandInvoker {
+    private HashMap<String, Convertable<Boolean,String>> commandsMap = new HashMap<>();
     private final Executable helpCommand;
     private final Executable addCommand;
     private final Executable addIfMaxCommand;
@@ -28,34 +31,47 @@ public class CommandInvoker {
                           Executable infoCommand, Executable printFieldDescendingStatusCommand, Executable removeAllByPersonCommand, Executable removeByIdCommand,
                           Executable removeHeadCommand, Executable saveCommand, Executable showCommand, Executable updateCommand) {
         this.helpCommand = helpCommand;
+        commandsMap.put("help",this::help);
         this.addCommand = addCommand;
+        commandsMap.put("add",this::add);
         this.addIfMaxCommand = addIfMaxCommand;
+        commandsMap.put("add_if_max",this::addIfMax);
         this.addIfMinCommand = addIfMinCommand;
+        commandsMap.put("add_if_min",this::addIfMin);
         this.clearCommand = clearCommand;
+        commandsMap.put("clear",this::clear);
         this.executeScriptCommand = executeScriptCommand;
+        commandsMap.put("execute_script",this::executeScript);
         this.exitCommand = exitCommand;
+        commandsMap.put("exit",this::exit);
         this.filterByStatusCommand = filterByStatusCommand;
+        commandsMap.put("filter_by_status",this::filterByStatusCommand);
         this.infoCommand = infoCommand;
+        commandsMap.put("info",this::info);
         this.printFieldDescendingStatusCommand = printFieldDescendingStatusCommand;
+        commandsMap.put("print_field_descending_status",this::printFieldDescendingStatus);
         this.removeAllByPersonCommand = removeAllByPersonCommand;
+        commandsMap.put("remove_all_by_person_command",this::removeAllByPerson);
         this.removeByIdCommand = removeByIdCommand;
+        commandsMap.put("remove_by_id",this::removeById);
         this.removeHeadCommand = removeHeadCommand;
+        commandsMap.put("remove_head",this::removeHead);
         this.saveCommand = saveCommand;
+        commandsMap.put("save",this::save);
         this.showCommand = showCommand;
+        commandsMap.put("show",this::show);
         this.updateCommand = updateCommand;
+        commandsMap.put("update",this::update);
     }
-
 
     /**
-     * Метод выводит сообщение, если желаемая команда не найдена
-     * @param command введённая команда
-     * @return возвращает статус выполнения команды
+     * Возвращает мапу с командами
+     * @return мапу (ключ - команда, значение - ссылка на метод)
      */
-    public boolean noSuchCommand(String command) {
-        System.out.println("Команда '" + command + "' не найдена. Наберите 'help' для справки.");
-        return false;
-
+    public HashMap<String, Convertable<Boolean, String>> getCommandsMap() {
+        return commandsMap;
     }
+
 
     /**
      * Запускает выполнение команды

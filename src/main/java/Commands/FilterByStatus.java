@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import WorkerData.Status;
 import Exceptions.EmptyCollectionException;
 import Exceptions.WrongArgumentException;
@@ -38,16 +39,16 @@ public class FilterByStatus implements Executable{
             Status status = Status.valueOf(argument.toUpperCase());
             String filteredInfo = collectionOperator.statusFilteredInfo(status);
             if (!filteredInfo.isEmpty()) {
-                System.out.println(filteredInfo);
+                Console.println(filteredInfo);
                 return true;
             } else System.out.println("В коллекции нет рабочих с выбранным статусом!");
         } catch (WrongArgumentException e) {
-            System.out.println("Укажите аргумент!");
+            Console.println("Укажите аргумент!");
         } catch (EmptyCollectionException e) {
-            System.err.println("Коллекция пуста!");
+            Console.println("Коллекция пуста!");
         } catch (IllegalArgumentException e) {
-            System.err.println("Статуса нет в списке!");
-            System.err.println("Список возможных статусов - " + Status.getValues());
+            Console.println("Статуса нет в списке!");
+            Console.printerror("Список возможных статусов - " + Status.getValues());
         }
         return false;
     }

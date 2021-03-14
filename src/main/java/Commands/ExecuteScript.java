@@ -1,5 +1,6 @@
 package Commands;
 
+import Control.Console;
 import Exceptions.WrongArgumentException;
 
 /**
@@ -24,11 +25,12 @@ public class ExecuteScript implements Executable{
     @Override
     public boolean execute(String argument) {
         try {
+            argument = argument.trim();
             if (argument.isEmpty()) throw new WrongArgumentException();
-            System.out.println("Выполняю скрипт '" + argument + "'...");
+            Console.println("Выполняю скрипт '" + argument + "'...");
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Укажите файл со скриптом в качестве аргумента.");
+            Console.println("Укажите файл со скриптом в качестве аргумента.");
         }
         return false;
     }

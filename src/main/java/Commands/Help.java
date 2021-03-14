@@ -1,5 +1,6 @@
 package Commands;
 
+import Control.Console;
 import Exceptions.WrongArgumentException;
 
 
@@ -18,25 +19,25 @@ public class Help implements Executable {
 
         try {
             if (!argument.isEmpty()) throw new WrongArgumentException();
-            System.out.println(Help.description());
-            System.out.println(Info.description());
-            System.out.println(Show.description());
-            System.out.println(Add.description());
-            System.out.println(Update.description());
-            System.out.println(RemoveById.description());
-            System.out.println(Clear.description());
-            System.out.println(Save.description());
-            System.out.println(ExecuteScript.description());
-            System.out.println(Exit.description());
-            System.out.println(RemoveHead.description());
-            System.out.println(AddIfMax.description());
-            System.out.println(AddIfMin.description());
-            System.out.println(RemoveAllByPerson.description());
-            System.out.println(FilterByStatus.description());
-            System.out.println(PrintFieldDescendingStatus.description());
+            Console.println(Help.description());
+            Console.println(Info.description());
+            Console.println(Show.description());
+            Console.println(Add.description());
+            Console.println(Update.description());
+            Console.println(RemoveById.description());
+            Console.println(Clear.description());
+            Console.println(Save.description());
+            Console.println(ExecuteScript.description());
+            Console.println(Exit.description());
+            Console.println(RemoveHead.description());
+            Console.println(AddIfMax.description());
+            Console.println(AddIfMin.description());
+            Console.println(RemoveAllByPerson.description());
+            Console.println(FilterByStatus.description());
+            Console.println(PrintFieldDescendingStatus.description());
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
+            Console.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
         }
         return false;
     }

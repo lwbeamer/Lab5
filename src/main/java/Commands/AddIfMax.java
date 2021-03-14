@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Control.UserDataReceiver;
 import WorkerData.Worker;
 import Exceptions.ScriptErrorException;
@@ -41,11 +42,11 @@ public class AddIfMax implements Executable{
             Worker workerToAdd = new Worker(collectionOperator.generateId(), userDataReceiver.askName(), userDataReceiver.askCoordinates(), ZonedDateTime.now(), userDataReceiver.askSalary(), userDataReceiver.askPosition(), userDataReceiver.askStatus(), userDataReceiver.askPerson());
             if (collectionOperator.collectionSize() == 0 || workerToAdd.compareTo(collectionOperator.getLast()) > 0) {
                 collectionOperator.addToCollection(workerToAdd);
-                System.out.println("Рабочий успешно добавлен!");
+                Console.println("Рабочий успешно добавлен!");
                 return true;
-            } else System.err.println("Значение рабочего меньше, чем значение наибольшего из рабочих!");
+            } else Console.printerror("Значение рабочего меньше, чем значение наибольшего из рабочих!");
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, введите данные после ввода команды");
+            Console.println("Для этой комманды не нужен аргумент, введите данные после ввода команды");
         } catch (ScriptErrorException e) {}
         return false;
     }

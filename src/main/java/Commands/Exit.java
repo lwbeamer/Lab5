@@ -1,5 +1,6 @@
 package Commands;
 
+import Control.Console;
 import Exceptions.WrongArgumentException;
 
 /**
@@ -27,7 +28,7 @@ public class Exit implements Executable{
             if (!argument.isEmpty()) throw new WrongArgumentException();
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
+            Console.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
         }
         return false;
     }

@@ -1,6 +1,7 @@
 package Commands;
 
 import Control.CollectionOperator;
+import Control.Console;
 import Exceptions.WrongArgumentException;
 
 /**
@@ -32,10 +33,10 @@ public class Clear implements Executable{
         try {
             if (!argument.isEmpty()) throw new WrongArgumentException();
             collectionOperator.clearCollection();
-            System.out.println("Коллекция очищена!");
+            Console.println("Коллекция очищена!");
             return true;
         } catch (WrongArgumentException e) {
-            System.out.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
+            Console.println("Для этой комманды не нужен аргумент, попробуйте ещё раз");
         }
         return false;
     }
